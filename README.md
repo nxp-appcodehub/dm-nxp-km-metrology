@@ -1,7 +1,15 @@
 # NXP Application Code Hub
 [<img src="https://mcuxpresso.nxp.com/static/icon/nxp-logo-color.svg" width="100"/>](https://www.nxp.com)
 
+
 ## NXP KM metrology
+
+> ⚠️ **Warning:** This is code for **TWR-KM35 + EVSE-SIG-BRD2X**.  
+> To check out the code for **EVSE-EMETER**, switch to the correct branch:
+> ```bash
+> git checkout EVSE-EMETER-KM35
+> ```
+
 
 NXP KM metrology software has two use cases:
 - it calculates the charging parameters (current, voltage and power) of an electric vehicle (EV) by using current and voltage samples stored in memory
