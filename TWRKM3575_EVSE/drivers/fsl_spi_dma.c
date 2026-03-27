@@ -194,7 +194,7 @@ status_t SPI_MasterTransferDMA(SPI_Type *base, spi_dma_handle_t *handle, spi_tra
     /* Check if the device is busy */
     if (handle->state == (uint32_t)kSPI_Busy)
     {
-         return (status_t)kStatus_SPI_Busy;
+        return (status_t)kStatus_SPI_Busy;
     }
 
     /* Check if input parameter invalid */
@@ -235,9 +235,9 @@ status_t SPI_MasterTransferDMA(SPI_Type *base, spi_dma_handle_t *handle, spi_tra
         config.enableSrcIncrement = false;
         config.srcAddr            = (uint32_t)(&g_spiDummyData[SPI_GetInstance(base)]);
     }
-
     (void)DMA_SubmitTransfer(handle->txHandle, &config, 1U);
-        /*
+
+    /*
      * Configure rx transfer DMA.
      * To make sure TX data has been sent out to bus, SPI DMA driver
      * checks the RX data count. When the RX data reaches the
@@ -258,8 +258,8 @@ status_t SPI_MasterTransferDMA(SPI_Type *base, spi_dma_handle_t *handle, spi_tra
         config.destAddr            = (uint32_t)(&s_spiDmaRxDrop);
         config.enableDestIncrement = false;
     }
-
     (void)DMA_SubmitTransfer(handle->rxHandle, &config, (uint32_t)kDMA_EnableInterrupt);
+
     /* Change the state of handle */
     handle->transferSize = xfer->dataSize;
     handle->state        = (uint32_t)kSPI_Busy;

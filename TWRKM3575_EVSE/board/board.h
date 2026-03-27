@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 NXP
+ * Copyright 2019 NXP
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
@@ -15,25 +15,13 @@
  ******************************************************************************/
 /*! @brief The board name */
 #define BOARD_NAME "TWR-KM35Z75M"
-/* Uncomment one define below corresponding to the board you are using */
-//#define KM35Z75M_EVB       1       /* Use for EVB validation board*/
-#define KM35Z75M_TWR       1       /* Use for tower board */
 
 /*! @brief The UART to use for debug messages. */
 #define BOARD_DEBUG_UART_TYPE     kSerialPort_Uart
-
-#if defined(KM35Z75M_TWR)
-#define BOARD_DEBUG_UART_BASEADDR (uint32_t) UART0
-#define BOARD_DEBUG_UART_INSTANCE 0U
+#define BOARD_DEBUG_UART_BASEADDR (uint32_t) UART2
+#define BOARD_DEBUG_UART_INSTANCE 2U
 #define BOARD_DEBUG_UART_CLKSRC   BUS_CLK
 #define BOARD_DEBUG_UART_CLK_FREQ CLOCK_GetBusClkFreq()
-#else
-#define BOARD_DEBUG_UART_BASEADDR (uint32_t) UART1
-#define BOARD_DEBUG_UART_INSTANCE 1U
-#define BOARD_DEBUG_UART_CLKSRC   SYS_CLK
-#define BOARD_DEBUG_UART_CLK_FREQ CLOCK_GetCoreSysClkFreq()
-#endif
-
 #define BOARD_UART_IRQ            UART0_UART1_UART2_UART3_IRQn
 #define BOARD_UART_IRQ_HANDLER    UART0_UART1_UART2_UART3_IRQHandler
 
@@ -103,25 +91,25 @@
 #define LED_RED_ON()  GPIO_PortClear(BOARD_LED_RED_GPIO, 1U << BOARD_LED_RED_GPIO_PIN) /*!< Turn on target LED_RED */
 #define LED_RED_OFF() GPIO_PortSet(BOARD_LED_RED_GPIO, 1U << BOARD_LED_RED_GPIO_PIN)   /*!< Turn off target LED_RED */
 #define LED_RED_TOGGLE() \
-    GPIO_PortToggle(BOARD_LED_RED_GPIO, 1U << BOARD_LED_RED_GPIO_PIN) /*!< Toggle on target LED_RED */
+    GPIO_PortToggle(BOARD_LED_RED_GPIO, 1U << BOARD_LED_RED_GPIO_PIN)                  /*!< Toggle on target LED_RED */
 
 #define LED_GREEN_INIT(output)                                             \
     GPIO_PinWrite(BOARD_LED_GREEN_GPIO, BOARD_LED_GREEN_GPIO_PIN, output); \
-    BOARD_LED_GREEN_GPIO->PDDR |= (1U << BOARD_LED_GREEN_GPIO_PIN) /*!< Enable target LED_GREEN */
+    BOARD_LED_GREEN_GPIO->PDDR |= (1U << BOARD_LED_GREEN_GPIO_PIN)        /*!< Enable target LED_GREEN */
 #define LED_GREEN_ON() \
-    GPIO_PortClear(BOARD_LED_GREEN_GPIO, 1U << BOARD_LED_GREEN_GPIO_PIN) /*!< Turn on target LED_GREEN */
+    GPIO_PortClear(BOARD_LED_GREEN_GPIO, 1U << BOARD_LED_GREEN_GPIO_PIN)  /*!< Turn on target LED_GREEN */
 #define LED_GREEN_OFF() \
-    GPIO_PortSet(BOARD_LED_GREEN_GPIO, 1U << BOARD_LED_GREEN_GPIO_PIN) /*!< Turn off target LED_GREEN */
+    GPIO_PortSet(BOARD_LED_GREEN_GPIO, 1U << BOARD_LED_GREEN_GPIO_PIN)    /*!< Turn off target LED_GREEN */
 #define LED_GREEN_TOGGLE() \
     GPIO_PortToggle(BOARD_LED_GREEN_GPIO, 1U << BOARD_LED_GREEN_GPIO_PIN) /*!< Toggle on target LED_GREEN */
 
 #define LED_ORANGE_INIT(output)                                              \
     GPIO_PinWrite(BOARD_LED_ORANGE_GPIO, BOARD_LED_ORANGE_GPIO_PIN, output); \
-    BOARD_LED_ORANGE_GPIO->PDDR |= (1U << BOARD_LED_ORANGE_GPIO_PIN) /*!< Enable target LED_ORANGE */
+    BOARD_LED_ORANGE_GPIO->PDDR |= (1U << BOARD_LED_ORANGE_GPIO_PIN)        /*!< Enable target LED_ORANGE */
 #define LED_ORANGE_ON() \
-    GPIO_PortClear(BOARD_LED_ORANGE_GPIO, 1U << BOARD_LED_ORANGE_GPIO_PIN) /*!< Turn on target LED_ORANGE */
+    GPIO_PortClear(BOARD_LED_ORANGE_GPIO, 1U << BOARD_LED_ORANGE_GPIO_PIN)  /*!< Turn on target LED_ORANGE */
 #define LED_ORANGE_OFF() \
-    GPIO_PortSet(BOARD_LED_ORANGE_GPIO, 1U << BOARD_LED_ORANGE_GPIO_PIN) /*!< Turn off target LED_ORANGE */
+    GPIO_PortSet(BOARD_LED_ORANGE_GPIO, 1U << BOARD_LED_ORANGE_GPIO_PIN)    /*!< Turn off target LED_ORANGE */
 #define LED_ORANGE_TOGGLE() \
     GPIO_PortToggle(BOARD_LED_ORANGE_GPIO, 1U << BOARD_LED_ORANGE_GPIO_PIN) /*!< Toggle on target LED_ORANGE */
 

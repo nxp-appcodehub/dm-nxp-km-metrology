@@ -1,11 +1,10 @@
 //*****************************************************************************
 // MKM35Z7 startup code for use with MCUXpresso IDE
 //
-// Version : 130120
+// Version : 160420
 //*****************************************************************************
 //
 // Copyright 2016-2020 NXP
-// All rights reserved.
 //
 // SPDX-License-Identifier: BSD-3-Clause
 //*****************************************************************************
@@ -277,7 +276,7 @@ extern unsigned int __bss_section_table_end;
 // Sets up a simple runtime environment and initializes the C/C++
 // library.
 //*****************************************************************************
-__attribute__ ((section(".after_vectors.reset")))
+__attribute__ ((naked, section(".after_vectors.reset")))
 void ResetISR(void) {
 
     // Disable interrupts

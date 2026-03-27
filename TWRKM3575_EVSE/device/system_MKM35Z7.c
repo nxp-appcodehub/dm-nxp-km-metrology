@@ -17,7 +17,7 @@
 **
 **     Reference manual:    KM35P144M75SF0RM, Rev.1, Dec 2019
 **     Version:             rev. 2.0, 2019-12-20
-**     Build:               b200113
+**     Build:               b240710
 **
 **     Abstract:
 **         Provides a system configuration function and a global variable that
@@ -25,9 +25,7 @@
 **         the oscillator (PLL) that is part of the microcontroller device.
 **
 **     Copyright 2016 Freescale Semiconductor, Inc.
-**     Copyright 2016-2020 NXP
-**     All rights reserved.
-**
+**     Copyright 2016-2024 NXP
 **     SPDX-License-Identifier: BSD-3-Clause
 **
 **     http:                 www.nxp.com
@@ -101,7 +99,7 @@ void SystemCoreClockUpdate (void) {
       /* FLL is selected */
       if ((MCG->C1 & MCG_C1_IREFS_MASK) == 0x00U) {
         /* External reference clock is selected */
-        if (MCG->C7 & MCG_C7_OSCSEL_MASK) {
+        if ((MCG->C7 & MCG_C7_OSCSEL_MASK) != 0x00U) {
           MCGOUTClock = CPU_XTAL32k_CLK_HZ; /* RTC 32 kHz oscillator drives MCG clock */
         } else {
           MCGOUTClock = CPU_XTAL_CLK_HZ; /* System oscillator drives MCG clock */
@@ -166,7 +164,7 @@ void SystemCoreClockUpdate (void) {
         MCGOUTClock = CPU_INT_SLOW_CLK_HZ;
       } else if ((MCG->C7 & MCG_C7_PLL32KREFSEL_MASK) == 0x80U) {
         /* FLL FRDIV selected */
-        if (MCG->C7 & MCG_C7_OSCSEL_MASK) {
+        if ((MCG->C7 & MCG_C7_OSCSEL_MASK) != 0x00U) {
           MCGOUTClock = CPU_XTAL32k_CLK_HZ; /* RTC 32 kHz oscillator drives MCG clock */
         } else {
           MCGOUTClock = CPU_XTAL_CLK_HZ; /* System oscillator drives MCG clock */
@@ -203,7 +201,7 @@ void SystemCoreClockUpdate (void) {
     } /* (!((MCG->C2 & MCG_C2_IRCS_MASK) == 0x00U)) */
   } else if ((MCG->C1 & MCG_C1_CLKS_MASK) == 0x80U) {
     /* External reference clock is selected */
-    if (MCG->C7 & MCG_C7_OSCSEL_MASK) {
+    if ((MCG->C7 & MCG_C7_OSCSEL_MASK) != 0x00U) {
       MCGOUTClock = CPU_XTAL32k_CLK_HZ; /* RTC 32 kHz oscillator drives MCG clock */
     } else {
       MCGOUTClock = CPU_XTAL_CLK_HZ;   /* System oscillator drives MCG clock */

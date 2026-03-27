@@ -17,7 +17,7 @@
 **
 **     Reference manual:    KM35P144M75SF0RM, Rev.1, Dec 2019
 **     Version:             rev. 2.0, 2019-12-20
-**     Build:               b200113
+**     Build:               b240710
 **
 **     Abstract:
 **         Provides a system configuration function and a global variable that
@@ -25,9 +25,7 @@
 **         the oscillator (PLL) that is part of the microcontroller device.
 **
 **     Copyright 2016 Freescale Semiconductor, Inc.
-**     Copyright 2016-2020 NXP
-**     All rights reserved.
-**
+**     Copyright 2016-2024 NXP
 **     SPDX-License-Identifier: BSD-3-Clause
 **
 **     http:                 www.nxp.com

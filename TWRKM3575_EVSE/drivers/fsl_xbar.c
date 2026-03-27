@@ -64,7 +64,7 @@ static uint32_t XBAR_GetInstance(XBAR_Type *base)
     /* Find the instance index from base address mappings. */
     for (instance = 0; instance < xbarInstanceCount; instance++)
     {
-        if (s_xbarBases[instance] == base)
+        if (MSDK_REG_SECURE_ADDR(s_xbarBases[instance]) == MSDK_REG_SECURE_ADDR(base))
         {
             break;
         }

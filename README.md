@@ -1,26 +1,16 @@
 # NXP Application Code Hub
 [<img src="https://mcuxpresso.nxp.com/static/icon/nxp-logo-color.svg" width="100"/>](https://www.nxp.com)
 
-
 ## NXP KM metrology
 
-> ⚠️ **Warning:** This is code for **TWR-KM35 + EVSE-SIG-BRD2X**.  
-> To check out the code for **EVSE-EMETER**, switch to the correct branch:
-> ```bash
-> git checkout EVSE-EMETER-KM35
-> ```
+NXP KM metrology software makes the KM behave like an AFE. The purpose is to send data over the SPI interface to a host processor. The host processor can then use this data to calculate power quality parameters.
 
+> ⚠️ **NOTE:** The firmware from this branch is tailored for the EVSE-EMETER board. For the software that runs with the EVSE-SIG-BRD2X check main branch
 
-NXP KM metrology software has two use cases:
-- it calculates the charging parameters (current, voltage and power) of an electric vehicle (EV) by using current and voltage samples stored in memory
-- it serves as an Analog Front End (AFE) sending data over SPI
-
-In both cases, current values are adjusted by rotating the potentiometer.
-
-#### Boards: TWR-KM35Z75M
+#### Boards: EVSE-EMETER
 #### Categories: Analog Front End, Industrial
-#### Peripherals: DISPLAY, I2C, ADC, SPI, UART
-#### Toolchains: MCUXpresso IDE
+#### Peripherals:  ADC, SPI, AFE
+#### Toolchains: MCUXpresso IDE, VS Code
 
 ## Table of Contents
 1. [Software](#step1)
@@ -30,49 +20,62 @@ In both cases, current values are adjusted by rotating the potentiometer.
 5. [Support](#step5)
 6. [Release Notes](#step6)
 
-## 1. Software<a name="step1"></a>
-- [MCUXpresso IDE v11.9.1 or later](#https://www.nxp.com/design/design-center/software/development-software/mcuxpresso-software-and-tools-/mcuxpresso-integrated-development-environment-ide:MCUXpresso-IDE)
-- SDK_2_15_000_TWR-KM35Z75M for TWR-KM35Z75M
+## 1. Software and tools <a name="step1"></a>
+
+<ul>
+    <li><a href="https://www.nxp.com/design/design-center/software/development-software/mcuxpresso-software-and-tools-/mcuxpresso-integrated-development-environment-ide:MCUXpresso-IDE">MCUXpresso IDE v11.9.1 or later</a></li>
+    <li><a href="https://code.visualstudio.com/">VS Code IDE</a></li>
+    <li><a href="https://marketplace.visualstudio.com/items?itemName=NXPSemiconductors.mcuxpresso">MCUXpresso for VS Code extension 25.03+</a></li>
+</ul>
+
+- SDK_26_6_000_TWR-KM35Z75M for TWR-KM35Z75M
+- Clone this repo and checkout EVSE-EMETER-KM35 branch
 
 ## 2. Hardware<a name="step2"></a>
 Mandatory hardware:
-- TWR-KM35Z75M board
-- a board with exposed UART and SPI interfaces
+- EVSE-EMETER
+- Board with exposed UART interface
 
->**Note**: EVSE-SIG-BRD1X/2X is used in this document to exemplify hardware connections. If you are using another board, check the documentation and schematic to adapt the wiring.
+>⚠️**Note**: EVSE-EMETER board contains both the MCXN947 and KM35Z75M. The purpose is to provide a complete metering solution with dual IC architecture for enhanced performance and flexibility. The KM35Z75M AFE can be replaced with alternative AFE solutions as needed.
 
 ## 3. Setup<a name="step3"></a>
 
 ### 3.1 Hardware assembly
-To use TWR-KM35 for its metrology capabilities, you need only a UART connection between the TWR-KM35 and the EVSE-SIG-BRD1X/EVSE-SIG-BRD2X (or any other board), as illustrated in the following image.
+There is no hardware assembly required for the EVSE-EMETER board as it comes pre-assembled with both the MCXN947 and KM35Z75M ICs.
 
-![plot](./images/TWR-KM3x_metrology.png)
-
-To use TWR-KM35 board as an AFE, you must use SPI interface. The UART connection is optional. The connections between the TWR-KM35 and the EVSE-SIG-BRD2X (or any other board) are illustrated in the following image.
-
-![plot](./images/TWR-KM3x_AFE.png)
+<div style="background: white; display: inline-block; padding: 0;">
+  <img src="./images/EVSE-EMETER_TOP_Main-Components.png" >
+</div>
 
 
-Connect a microUSB cable between you personal computer and J27 connector on TWR-KM35 to power on the board.
+To power on the EVSE-EMETER use the 12V DC IN connector. The adaptor is included in the package.
+Note from the image above, the J20 SWD connector is used for programming and debugging the KM35Z75M microcontroller.
 
-To power on the EVSE-SIG-BRD1X/EVSE-SIG-BRD2X, place J2 on position 1-2 and connect a 5V power supply to J1 barrel connector. If you are not using EVSE-SIG-BRD1X/EVSE-SIG-BRD2X, check the schematic of the corresponding board for powering options.
+### 3.2 Software setup and flashing with MCUXpresso IDE
 
-### 3.2 Software setup and flashing
+1. Import the project from filesystem or archive
 
-1. Clone the APP-CODE-HUB/dm-nxp-km-metrology
-2. Import the project from filesystem or archive
+![plot](./images/ImportKMProject.png)
 
-![plot](./images/ImportHost.PNG)
+2. After importing the project, click on it in the workspace to select it, then click on the hammer button to build it
+3. To flash the project, use the SWD interface of the MKM35Z512  (J20 SWD). This can be done via an external programmer (JLINK, MCULINK)
 
-3. After importing the project, click on it in the workspace to select it, then click on the hammer button to build it
-4. To flash the project, go to Quickstart Panel and select _Debug with LinkServer probes_. When the debugger gets to main() function, click on _Resume All Debug sessions_ to start the program
+### 3.3 Software setup and flashing with MCUXpresso for VS Code extension
+
+1. Import the project from filesystem CTRL+SHIFT+P and select MCUXpresso: Import Multiple Project(s) and select the project folder. The MCUXpresso project will be recognized.
+
+![plot](./images/VSCodeImportSelectProject.png)
+
+
+2. After importing the project, click on it in the workspace to select it, then right click the project and press "Pristine Build/Rebuild Project"
+
+![plot](./images/VSCodeImportedProject.png)
+
+3. To flash the project, use the SWD interface of the MKM35Z512  (J20 SWD). This can be done via an external programmer (JLINK, MCULINK)
+
 
 ## 4. Results<a name="step4"></a>
-Once the hardware connections are made and the TWR-KM35 is flashed, the current value is displayed on the board's display and metrology data is sent over UART.
-
-To change the current value, rotate R21 potentiometer (upper right corner, on the back of the board).
-
-![plot](./images/TWR-KM3x_results.jpg)
+Once the project is successfully flashed to the KM35Z512, the device will begin sampling analog signals through the ADC and transmitting the metrology data via the SPI interface to the host processor. The host processor leds will start blinking to indicate successful communication and data reception.
 
 ## 5. Support<a name="step5"></a>
 Questions regarding the content/correctness of this example can be entered as Issues within this [GitHub repository](https://github.com/nxp-appcodehub/rd-nxp-easyevse-imxrt106x/issues).
@@ -108,4 +111,5 @@ Questions regarding the content/correctness of this example can be entered as Is
 ## 6. Release Notes<a name="step6"></a>
 | Version | Description / Update                           | Date                        |
 |:-------:|------------------------------------------------|----------------------------:|
+| 1.2.1     | EVSE_EMETER        | March 10<sup>th</sup> 2026 |
 | 1.2.0     | Initial release on Application Code Hub        | April 3<sup>rd</sup> 2025 |

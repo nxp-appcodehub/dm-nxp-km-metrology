@@ -34,7 +34,7 @@ static uint32_t AFE_GetInstance(AFE_Type *base)
     /* Find the instance index from base address mappings. */
     for (instance = 0; instance < ARRAY_SIZE(s_AFEBases); instance++)
     {
-        if (s_AFEBases[instance] == base)
+        if (MSDK_REG_SECURE_ADDR(s_AFEBases[instance]) == MSDK_REG_SECURE_ADDR(base))
         {
             break;
         }
